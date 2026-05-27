@@ -1,5 +1,4 @@
-// Capture response headers per tab, store in memory
-const tabHeaders = {};
+// MV3-compatible: store in chrome.storage.session so headers survive SW restarts
 
 chrome.webRequest.onHeadersReceived.addListener(
   (details) => {
@@ -8,24 +7,23 @@ chrome.webRequest.onHeadersReceived.addListener(
     for (const h of details.responseHeaders || []) {
       headers[h.name.toLowerCase()] = h.value;
     }
-    tabHeaders[details.tabId] = {
-      url: details.url,
-      headers,
-      ts: Date.now(),
-    };
+    chrome.storage.session.set({
+      [`tab_${details.tabId}`]: { url: details.url, headers, ts: Date.now() },
+    });
   },
   { urls: ["<all_urls>"] },
   ["responseHeaders"]
 );
 
-// Clean up on tab close
 chrome.tabs.onRemoved.addListener((tabId) => {
-  delete tabHeaders[tabId];
+  chrome.storage.session.remove([`tab_${tabId}`]);
 });
 
-// Respond to popup requests
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
   if (msg.type === "GET_HEADERS") {
-    sendResponse(tabHeaders[msg.tabId] || null);
+    chrome.storage.session.get([`tab_${msg.tabId}`], (result) => {
+      sendResponse(result[`tab_${msg.tabId}`] || null);
+    });
+    return true; // keep channel open for async response
   }
 });

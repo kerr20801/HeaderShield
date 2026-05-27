@@ -13,7 +13,6 @@
     font-size: 13px;
   }
 
-  /* Header bar */
   .topbar {
     background: #181825;
     padding: 10px 14px;
@@ -25,97 +24,72 @@
   .topbar img { width: 20px; height: 20px; }
   .topbar .title { font-weight: 700; font-size: 14px; color: #cba6f7; }
   .topbar .url {
-    margin-left: auto;
-    font-size: 11px;
-    color: #6c7086;
-    max-width: 160px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    flex: 1;
+    font-size: 11px; color: #6c7086;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    margin: 0 8px;
   }
+  #lang-toggle {
+    background: #313244; color: #cdd6f4;
+    border: 1px solid #45475a; border-radius: 4px;
+    padding: 2px 7px; font-size: 11px; cursor: pointer;
+    flex-shrink: 0;
+  }
+  #lang-toggle:hover { background: #45475a; }
 
-  /* Grade section */
   .grade-section {
-    display: flex;
-    align-items: center;
-    padding: 12px 14px;
-    gap: 14px;
-    background: #11111b;
-    border-bottom: 1px solid #313244;
+    display: flex; align-items: center;
+    padding: 12px 14px; gap: 14px;
+    background: #11111b; border-bottom: 1px solid #313244;
   }
   .grade-box {
-    font-size: 42px;
-    font-weight: 900;
-    line-height: 1;
-    min-width: 50px;
-    text-align: center;
+    font-size: 42px; font-weight: 900;
+    line-height: 1; min-width: 50px; text-align: center;
   }
   .grade-info { flex: 1; }
   .grade-score { font-size: 18px; font-weight: 700; }
   .grade-summary { font-size: 11px; color: #a6adc8; margin-top: 2px; }
 
-  /* Server tabs */
   .server-tabs {
-    display: flex;
-    gap: 4px;
+    display: flex; gap: 4px;
     padding: 8px 14px 0;
-    background: #181825;
-    border-bottom: 1px solid #313244;
+    background: #181825; border-bottom: 1px solid #313244;
   }
   .server-tab {
     padding: 4px 10px;
-    border: 1px solid #313244;
-    border-bottom: none;
-    background: #1e1e2e;
-    color: #6c7086;
-    font-size: 11px;
-    border-radius: 4px 4px 0 0;
-    cursor: pointer;
+    border: 1px solid #313244; border-bottom: none;
+    background: #1e1e2e; color: #6c7086;
+    font-size: 11px; border-radius: 4px 4px 0 0; cursor: pointer;
   }
-  .server-tab.active {
-    background: #313244;
-    color: #cdd6f4;
-    border-color: #45475a;
-  }
+  .server-tab.active { background: #313244; color: #cdd6f4; border-color: #45475a; }
 
-  /* Action bar */
   .action-bar {
-    padding: 6px 14px;
-    background: #181825;
+    padding: 6px 14px; background: #181825;
     border-bottom: 1px solid #313244;
-    display: flex;
-    justify-content: flex-end;
+    display: flex; justify-content: flex-end;
   }
   #copy-all {
-    background: #313244;
-    color: #cdd6f4;
-    border: 1px solid #45475a;
-    border-radius: 4px;
-    padding: 3px 10px;
-    font-size: 11px;
-    cursor: pointer;
+    background: #313244; color: #cdd6f4;
+    border: 1px solid #45475a; border-radius: 4px;
+    padding: 3px 10px; font-size: 11px; cursor: pointer;
   }
   #copy-all:hover { background: #45475a; }
 
-  /* Results list */
   #list {
     padding: 10px 14px;
-    max-height: 320px;
-    overflow-y: auto;
+    max-height: 300px; overflow-y: auto;
   }
   #list::-webkit-scrollbar { width: 4px; }
   #list::-webkit-scrollbar-track { background: transparent; }
   #list::-webkit-scrollbar-thumb { background: #313244; border-radius: 2px; }
 
-  /* Footer */
   .footer {
     padding: 6px 14px;
-    border-top: 1px solid #313244;
-    background: #11111b;
-    font-size: 10px;
-    color: #45475a;
-    text-align: center;
+    border-top: 1px solid #313244; background: #11111b;
+    font-size: 10px; color: #45475a; text-align: center;
   }
+
+  .lang-btn { display: none; }
 </style>
 </head>
 <body>
@@ -124,13 +98,14 @@
   <img src="icons/icon16.png" alt="">
   <span class="title">HeaderShield</span>
   <span class="url" id="url">—</span>
+  <button id="lang-toggle" class="lang-btn active">EN</button>
 </div>
 
 <div class="grade-section">
   <div class="grade-box" id="grade" style="color:#6c7086;">—</div>
   <div class="grade-info">
     <div class="grade-score" id="score" style="color:#6c7086;">—/100</div>
-    <div class="grade-summary" id="summary">Capturing headers…</div>
+    <div class="grade-summary" id="summary">—</div>
   </div>
 </div>
 
@@ -145,13 +120,12 @@
 </div>
 
 <div id="list">
-  <div style="color:#6c7086;text-align:center;padding:20px;font-size:12px;">
-    Loading…
-  </div>
+  <div style="color:#6c7086;text-align:center;padding:20px;font-size:12px;">—</div>
 </div>
 
-<div class="footer">Local only · Zero telemetry · Data never leaves your browser</div>
+<div class="footer" id="footer">Local only · Zero telemetry · Data never leaves your browser</div>
 
+<script src="i18n.js"></script>
 <script src="popup.js"></script>
 </body>
 </html>
